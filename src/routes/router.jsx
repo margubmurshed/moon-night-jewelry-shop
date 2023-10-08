@@ -7,6 +7,7 @@ import AllJewelry from "../pages/AllJewelry/AllJewelry";
 import AddJewelry from "../pages/AddJewelry/AddJewelry";
 import PrimaryLayout from "../layouts/PrimaryLayout";
 import NotFound from "../pages/NotFound/NotFound";
+import SignIn from "../pages/SignIn/SignIn";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
       { path: "all-jewelry", element: <AllJewelry /> },
       { path: "my-jewelry", element: <MyJewelry /> },
       { path: "blogs", element: <Blogs /> },
+      { path: "signin", element: <SignIn /> },
     ],
   },
   {

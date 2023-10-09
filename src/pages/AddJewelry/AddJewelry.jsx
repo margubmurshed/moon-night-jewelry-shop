@@ -11,13 +11,16 @@ const AddJewelry = () => {
     const image = form.image.value;
     const jewelry = { name, category, price, code, image };
     try {
-      const res = await fetch("http://localhost:5000/jewelries", {
+      const res = await fetch("https://moon-jewelry-server.vercel.app/jewelries", {
         method: "POST",
         body: JSON.stringify(jewelry),
         headers: {"content-type": "application/json"},
       });
       const data = await res.json();
-      if(data.insertedId) alert("Jewelry Added Successfully!")
+      if(data.insertedId) {
+        form.reset();
+        alert("Jewelry Added Successfully!")
+      }
     } catch (e) {
       console.log(e.message);
     }

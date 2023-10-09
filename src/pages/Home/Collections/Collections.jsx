@@ -6,7 +6,7 @@ const Collections = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:5000/jewelries")
+        fetch("https://moon-jewelry-server.vercel.app/jewelries")
       .then(res => res.json())
       .then(data => {
         setJewelries(data);
@@ -24,8 +24,8 @@ const Collections = () => {
                         </div>
                         <div className="mt-3 uppercase">
                             <p className='font-semibold uppercase text-lg'>{item.name}</p>
-                            <p className='font-thin text-md'>{item.code}</p>
-                            <p className='flex items-center font-semibold'>{item.price} TAKA</p>
+                            <p className='font-thin text-sm text-md'>{item.code}</p>
+                            <p className='flex items-center font-semibold'>৳{item.price}</p>
                         </div>
                     </div>
                 ))}

@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { authContext } from "../../providers/AuthProvider";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(authContext);
+  const [toggleSignOut, setToggleSignOut] = useState(false);
+  const handleSignOut = async() => {
+    try{
+      await logOut();
+      navigate("/");
+      alert("Signed Out Successfully");
+    } catch(e) {
+      console.log(e.message);
+    }
+  }
   return (
     <div className="navbar bg-base-100 sticky top-0 z-50 shadow-sm">
       <div className="navbar-start">
@@ -70,7 +82,25 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <Link className="btn" to="/signin">Sign In</Link>
+      {user ? (
+        <> 
+        <div className="avatar cursor-pointer" onClick={() => setToggleSignOut(!toggleSignOut)}>
+          <div className="w-12 rounded-full">
+            <img
+              src={
+                user.photoURL ||
+                "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_1280.png"
+              }
+            />
+          </div>
+        </div>
+        {toggleSignOut && <button className="absolute top-full btn btn-error lg:right-2 w-full lg:w-auto rounded-none right-0" onClick={handleSignOut}>Sign Out</button>}
+        </>
+      ) : (
+          <Link className="btn" to="/signin">
+            Sign In
+          </Link>
+      )}
       </div>
     </div>
   );

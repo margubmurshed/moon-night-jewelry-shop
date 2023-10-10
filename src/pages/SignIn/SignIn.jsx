@@ -1,27 +1,34 @@
 import React, { useContext, useState } from "react";
 import { authContext } from "../../providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
-import {AiOutlineGoogle} from 'react-icons/ai';
+import { Navigate, useNavigate } from "react-router-dom";
+import { AiOutlineGoogle } from "react-icons/ai";
 
 const SignIn = () => {
   const [isSignIn, setIsSignIn] = useState(true);
-  const {emailPassSignIn, emailPassSignUp, googleSignIn, updateUser} = useContext(authContext);
+  const {
+    emailPassSignIn,
+    emailPassSignUp,
+    googleSignIn,
+    updateUser,
+    user,
+    loading,
+  } = useContext(authContext);
   const navigate = useNavigate();
 
-  const handleEmailPassSignIn = async(e) => {
+  const handleEmailPassSignIn = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    try{
+    try {
       await emailPassSignIn(email, password);
       navigate("/");
       alert("Signed In Successfully");
-    } catch(e) {
+    } catch (e) {
       console.log(e.message);
     }
-  }
-  const handleEmailPassSignUp = async(e) => {
+  };
+  const handleEmailPassSignUp = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
@@ -29,35 +36,48 @@ const SignIn = () => {
     const photourl = e.target.photourl.value;
     const confirmPassword = e.target.confirmPassword.value;
 
-    if(password !== confirmPassword) return;
+    if (password !== confirmPassword) return;
 
-    try{
+    try {
       await emailPassSignUp(email, password);
-      await updateUser(name, photourl)
       navigate("/");
       alert("Signed Up Successfully");
-    } catch(e) {
+      updateUser(name, photourl);
+    } catch (e) {
       console.log(e.message);
     }
-  }
+  };
 
-  const handleGoogleSignIn = async(e) => {
-    try{
+  const handleGoogleSignIn = async (e) => {
+    try {
       await googleSignIn();
       navigate("/");
       alert("Signed In Successfully");
-    } catch(e) {
+    } catch (e) {
       console.log(e.message);
     }
-  }
+  };
 
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-[500px]">
+        <span className="loading loading-spinner loading-lg text-ca-primary"></span>
+      </div>
+    );
+  if (!loading && user) return <Navigate to="/" />;
   return (
     <div className="container mx-auto p-5">
       <div className="flex justify-center gap-3">
-        <button className={`btn ${isSignIn ? "btn-primary" : "btn-outline"}`} onClick={() => setIsSignIn(true)}>
+        <button
+          className={`btn ${isSignIn ? "btn-primary" : "btn-outline"}`}
+          onClick={() => setIsSignIn(true)}
+        >
           Sign In
         </button>
-        <button className={`btn ${!isSignIn ? "btn-primary" : "btn-outline"}`} onClick={() => setIsSignIn(false)}>
+        <button
+          className={`btn ${!isSignIn ? "btn-primary" : "btn-outline"}`}
+          onClick={() => setIsSignIn(false)}
+        >
           Sign Up
         </button>
       </div>
@@ -171,8 +191,14 @@ const SignIn = () => {
         )}
       </div>
       <div className="max-w-sm mx-auto">
-      <div className="divider">OR</div>
-      <button className="flex justify-center items-center gap-3 w-full  btn btn-neutral" onClick={handleGoogleSignIn}><AiOutlineGoogle size={30}/><span>Sign In with Google</span></button>
+        <div className="divider">OR</div>
+        <button
+          className="flex justify-center items-center gap-3 w-full  btn btn-neutral"
+          onClick={handleGoogleSignIn}
+        >
+          <AiOutlineGoogle size={30} />
+          <span>Sign In with Google</span>
+        </button>
       </div>
     </div>
   );

@@ -8,6 +8,8 @@ import AddJewelry from "../pages/AddJewelry/AddJewelry";
 import PrimaryLayout from "../layouts/PrimaryLayout";
 import NotFound from "../pages/NotFound/NotFound";
 import SignIn from "../pages/SignIn/SignIn";
+import PrivateRoute from "./PrivateRoute";
+import Dashboard from "../pages/Dashboard/Dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -15,9 +17,10 @@ export const router = createBrowserRouter([
     element: <PrimaryLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "add-jewelry", element: <AddJewelry /> },
+      { path: "add-jewelry", element: <PrivateRoute><AddJewelry /></PrivateRoute> },
       { path: "all-jewelry", element: <AllJewelry /> },
-      { path: "my-jewelry", element: <MyJewelry /> },
+      { path: "my-jewelry", element: <PrivateRoute><MyJewelry /></PrivateRoute> },
+      { path: "dashboard", element: <PrivateRoute><Dashboard /></PrivateRoute> },
       { path: "blogs", element: <Blogs /> },
       { path: "signin", element: <SignIn /> },
     ],
